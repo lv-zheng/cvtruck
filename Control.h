@@ -9,7 +9,8 @@
 #include <memory>
 
 #define goalOffset 8
-#define ControlLag 30
+#define offset 13
+#define ControlLag 10
 
 
 extern IplImage *ControlMap;
