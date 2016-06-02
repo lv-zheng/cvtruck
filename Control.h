@@ -6,20 +6,17 @@
 #include "trans.h"
 #include "route.h"
 #include <math.h>
+#include <memory>
 
 #define goalOffset 8
-#define COM "COM5"  //perhaps not, we should change it
 #define ControlLag 30
 
 
 extern IplImage *ControlMap;
 extern CvPoint *ControlRoute;
 extern int CPointn;
-
+extern std::unique_ptr<lvzheng::truck> truck;
 
 IplImage *getMap();
-
 void SetControlMap(IplImage *map, CvPoint *route, int nPoint);
-
-
 int Control(CvPoint *head, CvPoint *tail);

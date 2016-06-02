@@ -6,6 +6,7 @@
 #include "trans.h"
 #include "route.h"
 #include "Control.h"
+#include "camera.hpp"
 
 
 int select_object = 0;
@@ -20,7 +21,12 @@ CvScalar hsv2rgb(float hue);
 
 
 
-int main() {
+int main(int argc, char **argv) {
+	if (argc != 2) {
+		std::cerr << "Usage: " << argv[0] << " <device>" << std::endl;
+		return 1;
+	}
+	truck = lvzheng::create_truck(argv[1]);
 	IplImage *Map = getMap();
 	int nPoint = 0;
 	CvPoint *route = GetRoute(Map, &nPoint);
@@ -35,7 +41,7 @@ int main() {
 int tmp_tracking() {
 
 	CvCapture* capture;
-	capture = cvCreateCameraCapture(-1);
+	capture = open_camera();
 
 	if (!capture) { 
 		std::cout << "Open failed." << std::endl; 
@@ -346,12 +352,10 @@ int tmp_tracking() {
 			{
 			case 'b':case 'B':
 				first_backproject_mode ^= 1;
-				second_backproject_mode ^= 1;
 				break;
 			case 'c':case 'C':
 				track_object = 0;
 				cvZero(first_histimg);
-				cvZero(second_histimg);
 				break;
 			case 'h':case 'H':
 				show_hist ^= 1;

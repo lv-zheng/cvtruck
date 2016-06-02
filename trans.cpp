@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "trans.h"
+#include "camera.hpp"
 #include <iostream>
 
 int pointNumber = 0;
 CvPoint2D32f originPoints[4];
 
 CvCapture* initCamera() {
-	CvCapture * cam = cvCreateCameraCapture(-1);
+	CvCapture * cam = open_camera();
 	if (!cam)
 	{
 		std::cout << "open failed" << std::endl;

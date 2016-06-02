@@ -4,16 +4,17 @@
 #include "getP.h"
 #include "trans.h"
 #include "route.h"
+#include "camera.hpp"
 #include <math.h>
 
 IplImage *ControlMap;
 CvPoint *ControlRoute;
 int CPointn;
-auto truck = lvzheng::create_truck(COM);
+std::unique_ptr<lvzheng::truck> truck;
 
 
 IplImage *getMap() {
-	CvCapture *cap = cvCreateCameraCapture(-1);
+	CvCapture *cap = open_camera();
 	IplImage *cPic;
 	cvNamedWindow("Cam", CV_WINDOW_AUTOSIZE);
 	char wait;
@@ -28,7 +29,7 @@ IplImage *getMap() {
 		cvShowImage("Cam", cPic);
 		wait = cvWaitKey(33);
 		if (wait == 'q') break;		//	e代表escape，退出
-		else if (wait == 'u ' || wait == 'U')			//	u代表up，上升阈值
+		else if (wait == 'u' || wait == 'U')			//	u代表up，上升阈值
 			threshold += 2.5;
 		else if (wait == 'd' || wait == 'D')			//	d代表down，下降阈值
 			threshold -= 2.5;
