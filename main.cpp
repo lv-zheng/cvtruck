@@ -204,10 +204,10 @@ int tmp_tracking() {
 			if (first_backproject_mode)
 				cvCvtColor(first_backproject, image, CV_GRAY2BGR);
 
-         		if (image->origin) {
+         		//if (image->origin) {
 				//in case of image reverse....................
-				track_box1.angle = -track_box1.angle;
-			}
+				//track_box1.angle = -track_box1.angle;
+			//}
 			cvEllipseBox(image, track_box1, CV_RGB(255, 0, 0), 3, CV_AA, 0);
 			//画出跟踪结果的位置  
 
@@ -298,27 +298,31 @@ int tmp_tracking() {
 				
 				static CvPoint controlP1;
 				if (track_comp1.rect.x) {
-					controlP1.x = track_comp1.rect.x + track_comp1.rect.width / 2;
-					controlP1.y = track_comp1.rect.y + track_comp1.rect.height / 2;
-					std::cout << "Point:" << "x-" << controlP1.x << "  :y-" << controlP1.y << std::endl;
+					controlP1.x = track_box1.center.x;// +track_comp1.rect.width / 2;
+					controlP1.y = track_box1.center.y; //+ track_comp1.rect.height / 2;
+					//std::cout << "Point:" << "x-" << controlP1.x << "  :y-" << controlP1.y << std::endl;
 				}
 				static CvPoint controlP2;
-				//if (track_comp2.rect.x) {
-					//controlP2.x = track_comp2.rect.x + track_comp2.rect.width / 2;
-					//controlP2.y = track_comp2.rect.y + track_comp2.rect.height / 2;
-					controlP2.x = 0;
-					controlP2.y = 0;
+				if (track_comp2.rect.x) {
+					controlP2.x = track_box2.center.x;// +track_comp1.rect.width / 2;
+					controlP2.y = track_box2.center.y; //+ track_comp1.rect.height / 2;
 					//std::cout << "Point:" << "x-" << controlP2.x << "  :y-" << controlP2.y << std::endl;
-				//}
-				Control(&controlP1, &controlP2);
-
-				if (image->origin) {
-					//in case of image reverse....................
-					track_box1.angle = -track_box1.angle;
-					track_box2.angle = -track_box2.angle;
 				}
-				cvEllipseBox(image, track_box1, CV_RGB(255, 0, 0), 3, CV_AA, 0);
-				cvEllipseBox(image, track_box2, CV_RGB(255, 0, 0), 3, CV_AA, 0);
+				
+				if (Control(&controlP1, &controlP2) > 0) return 0;
+
+				//if (image->origin) {
+					//in case of image reverse....................
+					//track_box1.angle = -track_box1.angle;
+					//track_box2.angle = -track_box2.angle;
+				//}
+				try {
+					cvEllipseBox(image, track_box1, CV_RGB(255, 0, 0), 3, CV_AA, 0);
+					cvEllipseBox(image, track_box2, CV_RGB(255, 0, 0), 3, CV_AA, 0);
+				}
+				catch (...) {
+					std::cerr << "Can not find the ellipse" << std::endl;
+				}
 				//画出跟踪结果的位置  
 
 
@@ -380,7 +384,7 @@ int tmp_tracking() {
 void selectionCall(int mouseEvent, int x, int y, int flags, void* param) {
 	static CvPoint origin = cvPoint(x, y);
 	if (!image)return;
-	if (image->origin)y = image->height - y;
+	//if (image->origin)y = image->height - y;
 	if (select_object)
 		{
 			selection.x = MIN(x, origin.x);

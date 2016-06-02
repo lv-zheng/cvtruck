@@ -8,8 +8,9 @@
 #include <math.h>
 
 #define goalOffset 8
+#define offset 13
 #define COM "COM5"  //perhaps not, we should change it
-#define ControlLag 30
+#define ControlLag 10
 
 
 extern IplImage *ControlMap;
@@ -18,8 +19,5 @@ extern int CPointn;
 
 
 IplImage *getMap();
-
 void SetControlMap(IplImage *map, CvPoint *route, int nPoint);
-
-
 int Control(CvPoint *head, CvPoint *tail);
