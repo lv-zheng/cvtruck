@@ -8,9 +8,8 @@
 #include <math.h>
 #include <memory>
 
-#define goalOffset 8
-#define offset 13
-#define ControlLag 10
+#define goalOffset 17
+#define offset 25
 
 
 extern IplImage *ControlMap;

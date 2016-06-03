@@ -200,7 +200,7 @@ int tmp_tracking() {
 			cvAnd(first_backproject, first_mask, first_backproject, 0);
 			//得到掩膜内的反向投影  
 			cvCamShift(first_backproject, track_window1,
-				cvTermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1),
+				cvTermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 3, 1),
 				&track_comp1, &track_box1);
 
 			//使用MeanShift算法对backproject中的内容进行搜索,返回跟踪结果  
@@ -277,7 +277,7 @@ int tmp_tracking() {
 				cvAnd(second_backproject, second_mask, second_backproject, 0);
 				//得到掩膜内的反向投影  
 				cvCamShift(second_backproject, track_window2,
-					cvTermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1),
+					cvTermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 3, 1),
 					&track_comp2, &track_box2);
 
 				//使用MeanShift算法对backproject中的内容进行搜索,返回跟踪结果  
@@ -291,7 +291,7 @@ int tmp_tracking() {
 				cvAnd(first_backproject, first_mask, first_backproject, 0);
 				//得到掩膜内的反向投影  
 				cvCamShift(first_backproject, track_window1,
-					cvTermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1),
+					cvTermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 3, 1),
 					&track_comp1, &track_box1);
 
 				//使用MeanShift算法对backproject中的内容进行搜索,返回跟踪结果  
