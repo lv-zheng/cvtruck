@@ -79,6 +79,8 @@ int Control(CvPoint *head, CvPoint *tail) {
 	int x2 = head->x, y2 = head->y;
 	int x3 = (ControlRoute + goalPoint)->x, y3 = (ControlRoute + goalPoint)->y;
 	double dst23 = sqrt((double)((x3 - x2)*(x3 - x2) + (y3 - y2)*(y3 - y2)));
+	double dst12 = sqrt((double)((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)));
+	double dst13 = sqrt((double)((x3 - x1)*(x3 - x1) + (y3 - y1)*(y3 - y1)));
 	//std::cout << "x1:" << x1 << "," << y1 << std::endl;
 	//std::cout << "x2:" << x2 << "," << y2 << std::endl;
 	//std::cout << "goal:" << x3 << "," << y3 << std::endl;
@@ -92,15 +94,13 @@ int Control(CvPoint *head, CvPoint *tail) {
 		return 0;
 	}
 
-	double dst12 = sqrt((double)((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)));
-	double dst13 = sqrt((double)((x3 - x1)*(x3 - x1) + (y3 - y1)*(y3 - y1)));
 	double costheta = (double)((x3 - x1)*(x2 - x1) + (y3 - y1)*(y2 - y1)) / (dst12 * dst13);
 	double sintheta = 1.0 - costheta*costheta;
 	//std::cout << sintheta << std::endl;
 	int turn = (x2 - x1)*(y3 - y1) - (x3 - x1)*(y2 - y1);
 
 	if (dst13 > 200) {
-		if (dst13*sintheta > goalOffset * 3) {
+		if (dst13*sintheta > goalOffset) {
 			truck->go(turn > 0 ? lvzheng::truck::direction::RIGHT : lvzheng::truck::direction::LEFT, lvzheng::truck::strength::MEDIUM);
 			//cvWaitKey(ControlLag);
 			//truck->stop();
@@ -116,7 +116,7 @@ int Control(CvPoint *head, CvPoint *tail) {
 		}
 	}
 
-	if (dst23 > dst13) {
+	if (costheta < 0) {
 		truck->go(turn > 0 ? lvzheng::truck::direction::RIGHT : lvzheng::truck::direction::LEFT, lvzheng::truck::strength::MEDIUM);
 		//cvWaitKey(20);
 	}

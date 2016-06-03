@@ -7,10 +7,10 @@
 #include "route.h"
 #include <math.h>
 
-#define goalOffset 8
-#define offset 13
+#define goalOffset 17
+#define offset 25
 #define COM "COM5"  //perhaps not, we should change it
-#define ControlLag 10
+
 
 
 extern IplImage *ControlMap;
